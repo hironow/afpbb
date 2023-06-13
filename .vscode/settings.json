@@ -1,0 +1,20 @@
+{
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.venv": true,
+    },
+    "cSpell.words": [
+        "Afpbb",
+        "apng",
+        "asyncioreactor",
+        "autothrottle",
+        "FINGERPRINTER",
+        "HTTPCACHE",
+        "itemadapter",
+        "middlewares",
+        "NEWSPIDER",
+        "ROBOTSTXT",
+        "Scrapy",
+        "TELNETCONSOLE"
+    ]
+}
