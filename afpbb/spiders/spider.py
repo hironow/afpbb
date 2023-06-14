@@ -22,9 +22,8 @@ class AfpbbSpider(scrapy.Spider):
         title = response.css("h1::text").get()
         self.logger.info(f"number: {number}, title: {title}")
 
-        if response.status == 200 and title is not "記事はありません":
-            text = response.css("div.article-body").get()
-
+        text = response.css("div.article-body").get() 
+        if response.status == 200 and title is not "記事はありません" and text is not None:
             # save html only when the file does not exist
             filename = f"html/{number}-article-from-afpbb.html"
             if not Path(filename).exists():
@@ -38,6 +37,7 @@ class AfpbbSpider(scrapy.Spider):
                 yield AfpbbItem(text=plain_text, url=response.url)
 
         if number >= self.oldest_number:
+            # go to the next page (decrement the number)
             next_page = f"https://www.afpbb.com/articles/-/{number - 1}"
             yield scrapy.Request(url=next_page, callback=self.parse, meta={'dont_redirect': True})
         else:
