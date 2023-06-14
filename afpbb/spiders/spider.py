@@ -13,7 +13,7 @@ class AfpbbSpider(scrapy.Spider):
     # oldest accessible article number at 2023-06-14
     oldest_number = 3300000
 
-    handle_httpstatus_list = [404]
+    handle_httpstatus_list = [404, 301]
 
     def parse(self, response):
         self.logger.info(f"url: {response.url}")
