@@ -8,10 +8,10 @@ from scrapy.exceptions import CloseSpider
 class AfpbbSpider(scrapy.Spider):
     name = "afpbb"
     allowed_domains = ["www.afpbb.com"]
-    start_urls = ["https://www.afpbb.com/articles/-/3468110"]
+    start_urls = ["https://www.afpbb.com/articles/-/3468222"]
 
-    # oldest accessible article number
-    oldest_number = 3468010
+    # oldest accessible article number at 2023-06-14
+    oldest_number = 3300000
 
     handle_httpstatus_list = [404]
 
