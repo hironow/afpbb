@@ -7,7 +7,7 @@ scrapy shell 'url'
 scrapy parse --spider=afpbb -c parse_item -d 2 'url'
 
 # run
-scrapy crawl afpbb --L INFO
+scrapy crawl afpbb -L INFO
 ```
 
 ## access check parse sample

@@ -24,7 +24,7 @@ class AfpbbSpider(scrapy.Spider):
             text = response.css("div.article-body").get()
 
             # save html only when the file does not exist
-            filename = f"html/{number}-afpbb-article.html"
+            filename = f"html/{number}-article-from-afpbb.html"
             if not Path(filename).exists():
                 Path(filename).write_bytes(response.body)
 
@@ -33,7 +33,7 @@ class AfpbbSpider(scrapy.Spider):
                 plain_text = html.replace_escape_chars(
                     html.remove_tags(rm_aside)
                 ).strip()
-                yield AfpbbItem(text=plain_text)
+                yield AfpbbItem(text=plain_text, url=response.url)
 
         if number >= self.oldest_number:
             next_page = f"https://www.afpbb.com/articles/-/{number - 1}"
