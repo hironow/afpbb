@@ -16,7 +16,9 @@ class AfpbbSpider(scrapy.Spider):
     handle_httpstatus_list = [404]
 
     def parse(self, response):
+        self.logger.info(f"url: {response.url}")
         number = int(response.url.split("/")[-1])
+
         title = response.css("h1::text").get()
         self.logger.info(f"number: {number}, title: {title}")
 
@@ -37,7 +39,7 @@ class AfpbbSpider(scrapy.Spider):
 
         if number >= self.oldest_number:
             next_page = f"https://www.afpbb.com/articles/-/{number - 1}"
-            yield scrapy.Request(url=next_page, callback=self.parse)
+            yield scrapy.Request(url=next_page, callback=self.parse, meta={'dont_redirect': True})
         else:
             # stop crawling when the oldest article is reached
             # see: https://docs.scrapy.org/en/latest/topics/exceptions.html?highlight=closeSpider
