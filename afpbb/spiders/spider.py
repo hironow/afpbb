@@ -8,11 +8,12 @@ from scrapy.exceptions import CloseSpider
 class AfpbbSpider(scrapy.Spider):
     name = "afpbb"
     allowed_domains = ["www.afpbb.com"]
-    start_urls = ["https://www.afpbb.com/articles/-/3300000"]
+    start_urls = ["https://www.afpbb.com/articles/-/3288498"]
 
     # causes an unknown error
     skip_numbers = [
         3307865,  # 502 status
+        3288499,  # full wide ad?
     ]
 
     # oldest accessible article number at 2023-06-14
