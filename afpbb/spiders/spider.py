@@ -8,12 +8,13 @@ from scrapy.exceptions import CloseSpider
 class AfpbbSpider(scrapy.Spider):
     name = "afpbb"
     allowed_domains = ["www.afpbb.com"]
-    start_urls = ["https://www.afpbb.com/articles/-/3288498"]
+    start_urls = ["https://www.afpbb.com/articles/-/3260480"]
 
     # causes an unknown error
     skip_numbers = [
         3307865,  # 502 status
         3288499,  # full wide ad?
+        # 3260480,  # Incomplete response receive
     ]
 
     # oldest accessible article number at 2023-06-14
@@ -26,14 +27,19 @@ class AfpbbSpider(scrapy.Spider):
         number = int(response.url.split("/")[-1])
 
         # stop crawling when 502 error occurs and skipping the number
-        if response.status == 502 and number not in self.skip_numbers:
-            raise CloseSpider("502 error, stopping crawling.")
+        # if response.status == 502 and number not in self.skip_numbers:
+        #     raise CloseSpider("502 error, stopping crawling.")
 
+        isSkipPage = False
         title = response.css("h1::text").get()
+        if title is None:
+            sub_title = response.css("h2::text").get()
+            isSkipPage = (sub_title == 'Incomplete response received from application')
+
         self.logger.info(f"number: {number}, title: {title}")
 
         text = response.css("div.article-body").get()
-        if response.status == 200 and title is not "記事はありません" and text is not None:
+        if response.status == 200 and title is not "記事はありません" and text is not None and not isSkipPage:
             # save html only when the file does not exist
             filename = f"html/{number}-article-from-afpbb.html"
             if not Path(filename).exists():
