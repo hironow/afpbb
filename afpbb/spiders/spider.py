@@ -8,27 +8,16 @@ from scrapy.exceptions import CloseSpider
 class AfpbbSpider(scrapy.Spider):
     name = "afpbb"
     allowed_domains = ["www.afpbb.com"]
-    start_urls = ["https://www.afpbb.com/articles/-/3260480"]
-
-    # causes an unknown error
-    skip_numbers = [
-        3307865,  # 502 status
-        3288499,  # full wide ad?
-        # 3260480,  # Incomplete response receive
-    ]
+    start_urls = ["https://www.afpbb.com/articles/-/3468222"]
 
     # oldest accessible article number at 2023-06-14
-    oldest_number = 3200000
+    oldest_number = 3468222
 
     handle_httpstatus_list = [404, 301, 502]
 
     def parse(self, response):
         self.logger.info(f"url: {response.url}")
         number = int(response.url.split("/")[-1])
-
-        # stop crawling when 502 error occurs and skipping the number
-        # if response.status == 502 and number not in self.skip_numbers:
-        #     raise CloseSpider("502 error, stopping crawling.")
 
         isSkipPage = False
         title = response.css("h1::text").get()
